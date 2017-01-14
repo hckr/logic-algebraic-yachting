@@ -4,6 +4,8 @@ u02: uuu2
 u03: uuu3
 u04: uuu4
 u05: uuu5
+z01: zet1
+z02: zet2
 
 input-groups:
 u01, u02
@@ -15,8 +17,6 @@ y02: igrek2
 y03: igrek3
 
 states:
-z01: zet1
-z02: zet2
 x01: iks1
 x02: iks2
 x03: iks3
