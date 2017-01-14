@@ -97,11 +97,20 @@ function parseExpression(expr, endsWith) {
         }
         if (expr[pos] == '(') {
             pos += 1;
-            let [subTokens, innerPos] = parseExpression(expr.slice(pos), ')');
+            let [subTokens, innerPos] = parseExpression(expr.slice(pos), ')'),
+                token;
             if (subTokens.length == 1 && subTokens[0].type == 'variable') {
-                subTokens = subTokens[0];
+                token = {
+                    type: 'variable',
+                    value: subTokens[0].value
+                };
+            } else {
+                token = {
+                    type: 'subExpression',
+                    value: subTokens
+                };
             }
-            tokens.push(subTokens);
+            tokens.push(token);
             pos += innerPos;
             continue;
         }

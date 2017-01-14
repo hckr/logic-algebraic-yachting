@@ -1,4 +1,4 @@
-let results; // outside for debugging purpose
+let results, interpretedFacts; // outside for debugging purpose
 
 fetch('test.lamd').then(response => {
     if (response.ok) {
@@ -36,6 +36,7 @@ fetch('test.lamd').then(response => {
             outputParent.insertBefore(outputWrapper, outputParent.querySelector('.header').nextSibling);
             outputWrapper.addEventListener('change', calculateInputs);
             console.log('Done.');
+            interpretedFacts = interpretFacts(results['facts']);
         });
     }
 });
