@@ -32,4 +32,5 @@ x02: iks2
 x03: iks3
 
 facts:
-to be defined
+F01: ( z01 ) lub ((z02 lub z04) i z03).
+F02: ( z01 lub x02 lub u02 ) lub ((z02 lub z04) albo z03).
