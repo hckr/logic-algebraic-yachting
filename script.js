@@ -7,15 +7,20 @@ fetch('test.lamd').then(response => {
             results = parseData(text);
             console.log('Done.')
             console.log('Looking for duplicates...');
-            let allVarIds = Object.keys(results['inputs']).concat(Object.keys(results['outputs'])).concat(Object.keys(results['states'])),
+            let allVarIds = flatten([ Object.keys(results['inputs']),
+                                      Object.keys(results['outputs']),
+                                      Object.keys(results['disruptions']),
+                                      Object.keys(results['states']) ]);
                 duplicates = findDuplicates(allVarIds);
             if (duplicates.length > 0) {
                 throw new Error(`Found duplicated variable(s) across sections: ${duplicates.join(', ')}`);
             }
-            let varIdsInAllGroups = [].concat.apply([], results['input-groups']),
+            let varIdsInAllGroups = flatten([ results['input-groups'],
+                                              results['output-groups'],
+                                              results['disruptions-groups'] ], 2),
                 groupDuplicates = findDuplicates(varIdsInAllGroups);
             if (groupDuplicates.length > 0) {
-                throw new Error(`Found variable(s) used multiple times in "input-groups" section: ${groupDuplicates.join(', ')}`);
+                throw new Error(`Found variable(s) used multiple times in "*-groups" sections: ${groupDuplicates.join(', ')}`);
             }
             console.log('Done.');
             console.log('Creating controls...')
@@ -56,6 +61,17 @@ function findDuplicates(elements) {
         }
     }
     return duplicates;
+}
+
+function flatten(array, iter) {
+    if (iter == undefined) {
+        iter = 1;
+    }
+    let result = array;
+    while (iter--) {
+        result = [].concat(...result);
+    }
+    return result;
 }
 
 function createControls(results, sectionName, groupSectionName) {
