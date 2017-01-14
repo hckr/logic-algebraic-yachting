@@ -1,0 +1,31 @@
+.wrapper {
+    width: 300px;
+    border: 1px solid #333;
+    padding: 5px;
+    float: left;
+    margin: 25px;
+}
+
+.header {
+    padding-bottom: 5px;
+    border-bottom: 1px solid #333;
+    margin-bottom: 5px;
+}
+
+.header:not(:first-child) {
+    margin-top: 20px;
+}
+
+.group-wrapper:not(:last-child) {
+    padding-bottom: 5px;
+    border-bottom: 1px dashed #555;
+    margin-bottom: 5px;
+}
+
+label {
+    display: block;
+}
+
+#outputResult, #inputResult {
+    min-height: 30px;
+}

@@ -19,12 +19,14 @@ fetch('test.lamd').then(response => {
             }
             console.log('Done.');
             console.log('Creating controls...')
-            let inputWrapper = createControls(results, 'inputs', 'input-groups');
-            document.body.appendChild(inputWrapper);
+            let inputWrapper = createControls(results, 'inputs', 'input-groups'),
+                inputParent = document.getElementById('inputToOutputForm');
+            inputParent.insertBefore(inputWrapper, inputParent.querySelector('.header').nextSibling);
             inputWrapper.addEventListener('change', calculateOutputs);
-            let outputWrapper = createControls(results, 'outputs', 'output-groups');
-            document.body.appendChild(outputWrapper);
-            inputWrapper.addEventListener('change', calculateInputs);
+            let outputWrapper = createControls(results, 'outputs', 'output-groups'),
+                outputParent = document.getElementById('outputToInputForm');
+            outputParent.insertBefore(outputWrapper, outputParent.querySelector('.header').nextSibling);
+            outputWrapper.addEventListener('change', calculateInputs);
             console.log('Done.');
         });
     }
@@ -55,7 +57,7 @@ function findDuplicates(elements) {
 
 function createControls(results, sectionName, groupSectionName) {
     let wrapper = document.createElement('div');
-    wrapper.className = '${sectionName}-wrapper';
+    wrapper.className = `${sectionName}-wrapper`;
     let currentRadioGroupNr = 1,
         groupedVariables = [];
     if (Object.keys(results).indexOf(groupSectionName) != -1) {
@@ -101,7 +103,8 @@ let parsers = {
     'inputs': parseVariables,
     'outputs': parseVariables,
     'states': parseVariables,
-    'input-groups': parseGroups
+    'input-groups': parseGroups,
+    'output-groups': parseGroups
 };
 
 function parseSection(sectionName, lines) {

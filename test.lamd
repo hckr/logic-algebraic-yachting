@@ -16,6 +16,9 @@ y01: igrek1
 y02: igrek2
 y03: igrek3
 
+output-groups:
+y02, y03
+
 states:
 x01: iks1
 x02: iks2
