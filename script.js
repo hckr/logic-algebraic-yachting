@@ -23,6 +23,9 @@ fetch('test.lamd').then(response => {
                 inputParent = document.getElementById('inputToOutputForm');
             inputParent.insertBefore(inputWrapper, inputParent.querySelector('.header').nextSibling);
             inputWrapper.addEventListener('change', calculateOutputs);
+            let disruptionsWrapper = createControls(results, 'disruptions', 'disruptions-groups'),
+                disruptionsParent = document.getElementById('disruptionsForm');
+            disruptionsParent.insertBefore(disruptionsWrapper, disruptionsParent.querySelector('.header').nextSibling);
             let outputWrapper = createControls(results, 'outputs', 'output-groups'),
                 outputParent = document.getElementById('outputToInputForm');
             outputParent.insertBefore(outputWrapper, outputParent.querySelector('.header').nextSibling);
@@ -101,9 +104,11 @@ function calculateInputs() {
 
 let parsers = {
     'inputs': parseVariables,
+    'disruptions': parseVariables,
     'outputs': parseVariables,
     'states': parseVariables,
     'input-groups': parseGroups,
+    'disruptions-groups': parseGroups,
     'output-groups': parseGroups
 };
 

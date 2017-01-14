@@ -4,12 +4,19 @@ u02: uuu2
 u03: uuu3
 u04: uuu4
 u05: uuu5
-z01: zet1
-z02: zet2
 
 input-groups:
 u01, u02
 u04, u05
+
+disruptions:
+z01: zet1
+z02: zet2
+z03: zet3
+z04: zet4
+
+disruptions-groups:
+z02, z04
 
 outputs:
 y01: igrek1
