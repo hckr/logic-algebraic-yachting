@@ -5,6 +5,10 @@ fetch('test.lamd').then(response => {
         response.text().then(text => {
             console.log('Parsing input...');
             results = parseData(text);
+            let allGroups = [ results['input-groups'],
+                              results['output-groups'],
+                              results['disruptions-groups'] ];
+            Object.assign(results['facts'], parseFacts(generateFactsArrayFromGroups(flatten(allGroups))));
             console.log('Done.')
             console.log('Looking for duplicates...');
             let allVarIds = flatten([ Object.keys(results['inputs']),
@@ -15,15 +19,13 @@ fetch('test.lamd').then(response => {
             if (duplicates.length > 0) {
                 throw new Error(`Found duplicated variable(s) across sections: ${duplicates.join(', ')}`);
             }
-            let varIdsInAllGroups = flatten([ results['input-groups'],
-                                              results['output-groups'],
-                                              results['disruptions-groups'] ], 2),
+            let varIdsInAllGroups = flatten(allGroups, 2),
                 groupDuplicates = findDuplicates(varIdsInAllGroups);
             if (groupDuplicates.length > 0) {
                 throw new Error(`Found variable(s) used multiple times in "*-groups" sections: ${groupDuplicates.join(', ')}`);
             }
             console.log('Done.');
-            console.log('Creating controls...')
+            console.log('Creating controls...');
             let inputWrapper = createControls(results, 'inputs', 'input-groups'),
                 inputParent = document.getElementById('inputToOutputForm');
             inputParent.insertBefore(inputWrapper, inputParent.querySelector('.header').nextSibling);

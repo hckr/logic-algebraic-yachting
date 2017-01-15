@@ -46,7 +46,11 @@ function parseSection(sectionName, lines) {
     if (sectionName in parsers) {
         try {
             return parsers[sectionName](lines);
-        } catch(duplicatedId) {
+        } catch(e) {
+            if (e instanceof Error) {
+                throw e;
+            }
+            let duplicatedId = e;
             throw new Error(`Found duplicated id "${duplicatedId}" in section "${sectionName}".`);
         }
     } else {
@@ -74,10 +78,13 @@ function parseFacts(lines) {
     let facts = {};
     lines.forEach(line => {
         let [id, expression] = line.split(':').map(s => s.trim());
+        if(expression == undefined) {
+            throw new Error('Found fact without id or expression!');
+        }
         if (Object.keys(facts).indexOf(id) != -1) {
             throw id;
         }
-        if (!expression.match(/.$/)) {
+        if (!expression.match(/\.$/)) {
             throw new Error(`Fact ${id} does not end with a dot!`);
         }
         facts[id] = parseExpression(expression.replace(/\s/, ' '), '.')[0];
@@ -145,17 +152,18 @@ function parseExpression(expr, endsWith) {
     return [tokens, pos];
 }
 
-const KeywordsPL = {
-    'jeżeli': 'if',
-    'to': 'then',
-    'i': 'and',
-    'lub': 'or',
-    'albo': 'xor'
-};
+const Keywords = [ 'if', 'then', 'and', 'or', 'xor' ],
+      KeywordsPL = ['jeżeli', 'to', 'i', 'lub', 'albo' ];
 
 function getKeywordValue(word) {
-    if (Object.keys(KeywordsPL).indexOf(word.toLowerCase())) {
-        return KeywordsPL[word];
+    word = word.toLowerCase();
+    let index = Keywords.indexOf(word);
+    if (index > -1) {
+        return word;
+    }
+    index = KeywordsPL.indexOf(word);
+    if (index > -1) {
+        return Keywords[index];
     }
     return false;
 }

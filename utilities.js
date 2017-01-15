@@ -20,3 +20,7 @@ function flatten(array, iter) {
     }
     return result;
 }
+
+function generateFactsArrayFromGroups(groups) {
+    return groups.map((group, index) => `GF${index}: ${group.join(' xor ')}.`);
+}
