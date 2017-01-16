@@ -35,11 +35,12 @@ function initializeFactEditor(editor, variables, findErrorsInExpression, factRea
                 formVisible = false;
             } else {
                 form.innerHTML = entry.value.replace(/\?/g, selectHtml);
-                form.querySelectorAll('select').forEach(s => {
+                let allSelects = form.querySelectorAll('select');
+                allSelects.forEach(s => {
                     let fitSelectSize = fitSize.bind(s, () => s.options[s.selectedIndex].text.length + 2, 14);
                     fitSelectSize();
                     s.addEventListener('change', fitSelectSize);
-                    s.addEventListener('change', ifFactReadyThenCall.bind(this, factReadyCallback));
+                    s.addEventListener('change', ifFactReadyThenCall.bind(this, entry, allSelects, factReadyCallback));
                 });
                 entry.classList.add('hidden');
                 form.classList.remove('hidden');
@@ -75,8 +76,9 @@ function fitSize(getTextLen, fontWidth) {
     setTimeout(() => this.style.width = (getTextLen() * fontWidth) + 'px', 4);
 }
 
-function ifFactReadyThenCall(callback) {
-    if ([].every.call(this.parentNode.querySelectorAll('select'), s => s.selectedIndex > 0)) {
-        callback();
+function ifFactReadyThenCall(entry, allSelects, callback) {
+    if ([].every.call(this.querySelectorAll('select'), s => s.selectedIndex > 0)) {
+        let index = 0;
+        callback(entry.value.replace(/\?/g, () => allSelects[index++].value));
     }
 }

@@ -26,8 +26,8 @@ fetch('test.lamd').then(response => {
             }
             console.log('Done.');
             interpretedFacts = interpretFacts(results['facts']);
-            function tempCb() {
-                console.log('yay!');
+            function tempCb(fact) {
+                console.log(fact);
             }
             initializeFactEditor(document.getElementsByClassName('fact-editor')[0], results['inputs'], findErrorsInExpression, tempCb);
             initializeFactEditor(document.getElementsByClassName('fact-editor')[1], results['outputs'], findErrorsInExpression, tempCb);
