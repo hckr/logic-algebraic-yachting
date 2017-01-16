@@ -4,24 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Logiczno-algebraiczne jachtowanie</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="inputToOutputForm" class="wrapper">
-        <div class="header">Podaj wejście:</div>
+    <h1>Logiczno-algebraiczne jachtowanie</h1>
 
-        <div class="header">Odpowiadające wyjście:</div>
-        <div id="outputResult"></div>
+    <h2>Zadanie analizy</h2>
+    <div class="fact-editor">
+        <label for="input-fact-entry">Fakt wejściowy:</label>
+        <input id="input-fact-entry" class="fact-entry" value="? i (? lub ?)"></input>
+        <form class="hidden">
+        </form>
+        <button data-toggle="Nowy fakt">Gotowe</button>
     </div>
-    <div id="disruptionsForm" class="wrapper">
-        <div class="header">Zdefiniuj zakłócenia:</div>
-    </div>
-    <div id="outputToInputForm" class="wrapper">
-        <div class="header">Podaj wyjście:</div>
 
-        <div class="header">Odpowiadające wejście:</div>
-        <div id="inputResult"></div>
+    <h2>Zadanie wyzaczania najlepszych wartości wyjściowych</h2>
+    <div class="fact-editor">
+        <label for="output-fact-entry">Fakt wyjściowy:</label>
+        <input id="output-fact-entry" class="fact-entry" value="? i (? lub ?)"></input>
+        <form class="hidden">
+        </form>
+        <button data-toggle="Nowy fakt">Gotowe</button>
     </div>
+
     <script src="parsing.js"></script>
     <script src="interpreting.js"></script>
     <script src="gui.js"></script>

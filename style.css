@@ -1,31 +1,68 @@
-.wrapper {
-    width: 300px;
-    border: 1px solid #333;
-    padding: 5px;
-    float: left;
-    margin: 25px;
+html {
+    font-family: 'Open Sans', sans-serif;
 }
 
-.header {
-    padding-bottom: 5px;
-    border-bottom: 1px solid #333;
-    margin-bottom: 5px;
+h2 {
+    margin-top: 50px;
 }
 
-.header:not(:first-child) {
-    margin-top: 20px;
+.fact-editor {
+    font: 30px monospace;
+    margin: 20px 30px;
+    line-height: 2em;
+    transition: opacity ease-in 0.15s;
 }
 
-.group-wrapper:not(:last-child) {
-    padding-bottom: 5px;
-    border-bottom: 1px dashed #555;
-    margin-bottom: 5px;
+.fact-editor * {
+    vertical-align: baseline;
 }
 
-label {
-    display: block;
+.fact-editor label {
+    font-size: 16px;
 }
 
-#outputResult, #inputResult {
-    min-height: 30px;
+.fact-entry, .fact-editor select {
+    border: 2px solid #333;
+}
+
+.fact-entry:focus, .fact-editor select:focus {
+    border-color: #4a90d9;
+    outline: none;
+}
+
+.fact-editor select:-moz-focusring {
+    color: transparent;
+    text-shadow: 0 0 0 #000;
+}
+
+.fact-entry {
+    height: 30px;
+    min-width: 100px;
+    font: inherit;
+    transition: width ease-in 0.1s;
+    border-style: none;
+    border-bottom-style: solid;
+}
+
+.fact-editor button {
+    height: 30px;
+    vertical-align: middle;
+}
+
+.fact-editor form {
+    display: inline;
+}
+
+.fact-editor select {
+    font: inherit;
+    font-size: 0.7em;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    max-width: 400px;
+    transition: width ease-in 0.1s;
+}
+
+.hidden {
+    display: none !important;
 }

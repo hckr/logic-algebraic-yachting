@@ -25,28 +25,12 @@ fetch('test.lamd').then(response => {
                 throw new Error(`Found variable(s) used multiple times in "*-groups" sections: ${groupDuplicates.join(', ')}`);
             }
             console.log('Done.');
-            console.log('Creating controls...');
-            let inputWrapper = createControls(results, 'inputs', 'input-groups'),
-                inputParent = document.getElementById('inputToOutputForm');
-            inputParent.insertBefore(inputWrapper, inputParent.querySelector('.header').nextSibling);
-            inputWrapper.addEventListener('change', calculateOutputs);
-            let disruptionsWrapper = createControls(results, 'disruptions', 'disruptions-groups'),
-                disruptionsParent = document.getElementById('disruptionsForm');
-            disruptionsParent.insertBefore(disruptionsWrapper, disruptionsParent.querySelector('.header').nextSibling);
-            let outputWrapper = createControls(results, 'outputs', 'output-groups'),
-                outputParent = document.getElementById('outputToInputForm');
-            outputParent.insertBefore(outputWrapper, outputParent.querySelector('.header').nextSibling);
-            outputWrapper.addEventListener('change', calculateInputs);
-            console.log('Done.');
             interpretedFacts = interpretFacts(results['facts']);
+            function tempCb() {
+                console.log('yay!');
+            }
+            initializeFactEditor(document.getElementsByClassName('fact-editor')[0], results['inputs'], tempCb);
+            initializeFactEditor(document.getElementsByClassName('fact-editor')[1], results['outputs'], tempCb);
         });
     }
 });
-
-function calculateOutputs() {
-    console.log('TODO');
-}
-
-function calculateInputs() {
-    console.log('TODO');
-}

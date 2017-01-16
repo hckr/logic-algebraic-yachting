@@ -1,35 +1,69 @@
-function createControls(results, sectionName, groupSectionName) {
-    let wrapper = document.createElement('div');
-    wrapper.className = `${sectionName}-wrapper`;
-    let currentRadioGroupNr = 1,
-        groupedVariables = [];
-    if (Object.keys(results).indexOf(groupSectionName) != -1) {
-        results[groupSectionName].map(group => {
-            let groupWrapper = document.createElement('div');
-            groupWrapper.className = 'group-wrapper';
-            let radioGroupName = `${groupSectionName}-${currentRadioGroupNr}`;
-            group.map((varId, index) => {
-                if (Object.keys(results[sectionName]).indexOf(varId) == -1) {
-                    throw new Error(`Found undeclared input variable ${varId} in section "${groupSectionName}".`);
-                }
-                let label = document.createElement('label');
-                label.innerHTML = `<input type="radio" name="${radioGroupName}"
-                                          id="${varId}" ${index == 0 ? 'checked' : ''}>
-                                   ${results[sectionName][varId]}`;
-                groupWrapper.appendChild(label);
-                groupedVariables.push(varId);
-            });
-            wrapper.appendChild(groupWrapper);
-            ++currentRadioGroupNr;
-        });
+function initializeFactEditor(editor, variables, factReadyCallback) {
+    let entry = editor.getElementsByClassName('fact-entry')[0],
+        form = editor.getElementsByTagName('form')[0],
+        button = editor.getElementsByTagName('button')[0];
+
+    let fitEntrySize = fitSize.bind(entry, () => entry.value.length + 3, 18);
+    fitEntrySize();
+    entry.addEventListener('keydown', fitEntrySize);
+
+    entry.focus();
+    entry.selectionStart = entry.value.length;
+
+    let formVisible = false;
+
+    let selectHtmlArr = [ '<select><option>?</option>' ];
+    for (let varId in variables) {
+        selectHtmlArr.push(`<option value="${varId}">${varId}: ${variables[varId]}</option>`);
     }
-    for (let varId in results[sectionName]) {
-        if (groupedVariables.indexOf(varId) != -1) {
-            continue;
+    selectHtmlArr.push('</select>');
+    let selectHtml = selectHtmlArr.join('');
+
+    editor.addEventListener('transitionend', function(e) {
+        if (e.target == editor && this.style.opacity == 0) {
+            let prevText = button.innerHTML;
+            button.innerHTML = button.getAttribute('data-toggle');
+            button.setAttribute('data-toggle', prevText);
+
+            if (formVisible) {
+                form.classList.add('hidden');
+                entry.classList.remove('hidden');
+                entry.focus();
+                formVisible = false;
+            } else {
+                form.innerHTML = entry.value.replace(/\?/g, selectHtml);
+                form.querySelectorAll('select').forEach(s => {
+                    let fitSelectSize = fitSize.bind(s, () => s.options[s.selectedIndex].text.length + 2, 14);
+                    fitSelectSize();
+                    s.addEventListener('change', fitSelectSize);
+                    s.addEventListener('change', ifFactReadyThenCall.bind(this, factReadyCallback));
+                });
+                entry.classList.add('hidden');
+                form.classList.remove('hidden');
+                form.querySelector('select').focus();
+                formVisible = true;
+            }
+            this.style.opacity = 1;
         }
-        let label = document.createElement('label');
-        label.innerHTML = `<input type="checkbox" id="${varId}"> ${results[sectionName][varId]}`;
-        wrapper.appendChild(label);
+    });
+
+    button.addEventListener('click', function() {
+        if (entry.value.match(/\?/)) {
+            editor.style.opacity = 0;
+        } else {
+            entry.focus();
+        }
+    });
+
+    entry.addEventListener('keypress', e => e.keyCode == 13 && button.click());
+}
+
+function fitSize(getTextLen, fontWidth) {
+    setTimeout(() => this.style.width = (getTextLen() * fontWidth) + 'px', 4);
+}
+
+function ifFactReadyThenCall(callback) {
+    if ([].every.call(this.parentNode.querySelectorAll('select'), s => s.selectedIndex > 0)) {
+        callback();
     }
-    return wrapper;
 }
