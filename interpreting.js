@@ -66,7 +66,7 @@ function createFunctionFromFact(expressionTokens) {
                         if (currentLevelKeyword == 'if' && exTok.value == 'then') {
                             currentLevelKeyword = 'implication';
                         } else if (currentLevelKeyword != exTok.value) {
-                            throw new Error('Each level of expression has to have the same keyword!');
+                            throw new Error('Each (sub)expression can contain only one type of keyword! Use parantheses to group expressions.');
                         }
                     }
                     break;
