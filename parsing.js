@@ -111,7 +111,11 @@ function parseExpression(expr, endsWith, skippedLen) {
             right = expr.match(/\)/g),
             rightCount = right ? right.length : 0;
         if (leftCount != rightCount) {
-            throw new Error('Parantheses do not match!');
+            let err = new Error('Parantheses do not match!'),
+                rightmostRightPos = expr.lastIndexOf(')');
+            err.tokenStart = rightmostRightPos > -1 ? rightmostRightPos : expr.indexOf(')');
+            err.tokenEnd = err.tokenStart + 1;
+            throw err;
         }
     }
 
@@ -186,6 +190,15 @@ function parseExpression(expr, endsWith, skippedLen) {
         }
         pos = nextDelimPos + 1;
     }
+
+    if (previousType == 'keyword') {
+        let err = new Error('Expression cannot end with a keyword!'),
+            token = tokens[tokens.length - 1];
+        err.tokenStart = skippedLen + token.pos;
+        err.tokenEnd = skippedLen + token.pos + token.length;
+        throw err;
+    }
+
     return [tokens, pos];
 }
 
