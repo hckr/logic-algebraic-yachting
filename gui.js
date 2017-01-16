@@ -20,7 +20,10 @@ function initializeFactEditor(editor, variables, factReadyCallback) {
     let selectHtml = selectHtmlArr.join('');
 
     editor.addEventListener('transitionend', function(e) {
-        if (e.target == editor && this.style.opacity == 0) {
+        if (e.target != editor) {
+            return;
+        }
+        if (this.style.opacity == 0) {
             let prevText = button.innerHTML;
             button.innerHTML = button.getAttribute('data-toggle');
             button.setAttribute('data-toggle', prevText);
@@ -44,12 +47,15 @@ function initializeFactEditor(editor, variables, factReadyCallback) {
                 formVisible = true;
             }
             this.style.opacity = 1;
+        } else {
+            button.disabled = false;
         }
     });
 
     button.addEventListener('click', function() {
         if (entry.value.match(/\?/)) {
             editor.style.opacity = 0;
+            button.disabled = true;
         } else {
             entry.focus();
         }

@@ -23,9 +23,10 @@ function findPossibleVarCombinations(interpretedFacts) {
             for (let factId in interpretedFacts) yield* interpretedFacts[factId].variables }()));
         possibleCombinations = [];
     for (let values of allBinaryCombinations(allVariables.length)) {
-        let allFactsTrue = true;
+        let allFactsTrue = true,
+            varObj = createVarObj(allVariables, values);
         for (let factId in interpretedFacts) {
-            if (!interpretedFacts[factId].evaluate(createVarObj(allVariables, values))) {
+            if (!interpretedFacts[factId].evaluate(varObj)) {
                 allFactsTrue = false;
                 break;
             }
