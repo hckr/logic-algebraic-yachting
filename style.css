@@ -39,7 +39,7 @@ h2 {
     height: 30px;
     min-width: 100px;
     font: inherit;
-    transition: width ease-in 0.1s;
+    transition: all ease-in 0.1s;
     border-style: none;
     border-bottom-style: solid;
 }
@@ -65,4 +65,8 @@ h2 {
 
 .hidden {
     display: none !important;
+}
+
+.error {
+    border-color: #d9004a !important;
 }

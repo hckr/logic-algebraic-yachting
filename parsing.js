@@ -92,11 +92,44 @@ function parseFacts(lines) {
     return facts;
 }
 
-function parseExpression(expr, endsWith) {
+const Keywords = [ 'if', 'then', 'and', 'or', 'xor', 'not' ],
+      KeywordsPL = ['jeżeli', 'to', 'i', 'lub', 'albo', 'nie' ],
+      BeginningKeywords = [ 'if', 'not' ];
+
+function parseExpression(expr, endsWith, skippedLen) {
     let tokens = [],
         pos = 0,
         len = expr.length,
-        loop = true;
+        loop = true,
+        previousType;
+
+    skippedLen = skippedLen || 0;
+
+    if (!skippedLen) {
+        let left = expr.match(/\(/g),
+            leftCount = left ? left.length : 0,
+            right = expr.match(/\)/g),
+            rightCount = right ? right.length : 0;
+        if (leftCount != rightCount) {
+            throw new Error('Parantheses do not match!');
+        }
+    }
+
+    function addToken(token) {
+        if (previousType == 'variable' && token.type != 'keyword' ||
+                previousType == 'subExpression' && token.type != 'keyword' ||
+                previousType == 'keyword' && token.type == 'keyword' ||
+                previousType == undefined && token.type == 'keyword' && BeginningKeywords.indexOf(token.value) == -1) {
+
+            let err = new Error(`Unexpected ${token.type} ${previousType ? `after ${previousType}` : 'on the beginning of (sub)expression'} (position: ${token.pos}).`);
+            err.tokenStart = token.pos;
+            err.tokenEnd = token.pos + token.length;
+            throw err;
+        }
+        tokens.push(token);
+        previousType = token.type;
+    }
+
     while (loop && pos < len) {
         if (expr[pos] == ' ') {
             pos += 1;
@@ -104,20 +137,22 @@ function parseExpression(expr, endsWith) {
         }
         if (expr[pos] == '(') {
             pos += 1;
-            let [subTokens, innerPos] = parseExpression(expr.slice(pos), ')'),
-                token;
+            let [subTokens, innerPos] = parseExpression(expr.slice(pos), ')', pos);
             if (subTokens.length == 1 && subTokens[0].type == 'variable') {
-                token = {
+                addToken({
                     type: 'variable',
-                    value: subTokens[0].value
-                };
+                    value: subTokens[0].value,
+                    pos: skippedLen + pos - 1,
+                    length: innerPos + 1
+                });
             } else {
-                token = {
+                addToken({
                     type: 'subExpression',
-                    value: subTokens
-                };
+                    value: subTokens,
+                    pos: skippedLen + pos - 1,
+                    length: innerPos + 1
+                });
             }
-            tokens.push(token);
             pos += innerPos;
             continue;
         }
@@ -132,28 +167,27 @@ function parseExpression(expr, endsWith) {
         }
         let word = expr.slice(pos, nextDelimPos);
         if (word.length > 0) {
-            let token,
-                keywordValue = getKeywordValue(word);
+            let keywordValue = getKeywordValue(word);
             if (keywordValue) {
-                token = {
+                addToken({
                     type: 'keyword',
-                    value: keywordValue
-                };
+                    value: keywordValue,
+                    pos: skippedLen + pos,
+                    length: word.length
+                });
             } else {
-                token = {
+                addToken({
                     type: 'variable',
-                    value: word
-                };
+                    value: word,
+                    pos: skippedLen + pos,
+                    length: word.length
+                });
             }
-            tokens.push(token);
         }
         pos = nextDelimPos + 1;
     }
     return [tokens, pos];
 }
-
-const Keywords = [ 'if', 'then', 'and', 'or', 'xor' ],
-      KeywordsPL = ['jeżeli', 'to', 'i', 'lub', 'albo' ];
 
 function getKeywordValue(word) {
     word = word.toLowerCase();

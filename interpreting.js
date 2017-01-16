@@ -33,13 +33,19 @@ const KeywordFunctions = {
     'xor': vals => 1 == (vals.map(v => !!v).reduce((sum, curr) => sum + curr, 0)),
     'implication': vals => {
             if (vals.length != 2) {
-                throw new Error('Implication should have 2 arguments.')
+                throw new Error('Implication should have 2 arguments.');
             }
             if (!!vals[0] == true && !!vals[1] == false) {
                 return false;
             }
             return true;
+        },
+    'not': vals => {
+        if (vals.length != 1) {
+            throw new Error('Not should have only one argument.');
         }
+        return !vals[0];
+    }
 }
 
 function createFunctionFromFact(expressionTokens) {

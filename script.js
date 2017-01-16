@@ -29,8 +29,8 @@ fetch('test.lamd').then(response => {
             function tempCb() {
                 console.log('yay!');
             }
-            initializeFactEditor(document.getElementsByClassName('fact-editor')[0], results['inputs'], tempCb);
-            initializeFactEditor(document.getElementsByClassName('fact-editor')[1], results['outputs'], tempCb);
+            initializeFactEditor(document.getElementsByClassName('fact-editor')[0], results['inputs'], findErrorsInExpression, tempCb);
+            initializeFactEditor(document.getElementsByClassName('fact-editor')[1], results['outputs'], findErrorsInExpression, tempCb);
         });
     }
 });

@@ -1,4 +1,4 @@
-function initializeFactEditor(editor, variables, factReadyCallback) {
+function initializeFactEditor(editor, variables, findErrorsInExpression, factReadyCallback) {
     let entry = editor.getElementsByClassName('fact-entry')[0],
         form = editor.getElementsByTagName('form')[0],
         button = editor.getElementsByTagName('button')[0];
@@ -53,11 +53,18 @@ function initializeFactEditor(editor, variables, factReadyCallback) {
     });
 
     button.addEventListener('click', function() {
-        if (entry.value.match(/\?/)) {
+        let error = findErrorsInExpression(entry.value);
+        if (entry.value.match(/\?/) && error == null) {
+            entry.classList.remove('error');
             editor.style.opacity = 0;
             button.disabled = true;
         } else {
+            entry.classList.add('error');
             entry.focus();
+            if (error) {
+                entry.selectionStart = error.tokenStart;
+                entry.selectionEnd = error.tokenEnd;
+            }
         }
     });
 
