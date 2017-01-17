@@ -88,7 +88,7 @@ function parseFacts(lines) {
             throw new Error(`Fact ${id} does not end with a dot!`);
         }
         try {
-            facts[id] = parseExpression(expression.replace(/\s/, ' '), '.')[0];
+            facts[id] = parseExpression(expression, '.');
         } catch (e) {
             throw new Error(`${id}: ${e.message}`);
         }
@@ -100,122 +100,121 @@ const Keywords = [ 'if', 'then', 'and', 'or', 'xor', 'not' ],
       KeywordsPL = ['jeżeli', 'to', 'i', 'lub', 'albo', 'nie' ],
       BeginningKeywords = [ 'if', 'not' ];
 
-function parseExpression(expr, endsWith, skippedLen) {
-    let tokens = [],
-        pos = 0,
-        len = expr.length,
-        loop = true,
-        previousType,
-        expressionKeyword;
-
-    skippedLen = skippedLen || 0;
-
-    if (!skippedLen) {
-        let left = expr.match(/\(/g),
-            leftCount = left ? left.length : 0,
-            right = expr.match(/\)/g),
-            rightCount = right ? right.length : 0;
-        if (leftCount != rightCount) {
-            let err = new Error('Parantheses do not match!'),
-                rightmostRightPos = expr.lastIndexOf(')');
-            err.tokenStart = rightmostRightPos > -1 ? rightmostRightPos : expr.indexOf('(');
-            err.tokenEnd = err.tokenStart + 1;
-            throw err;
-        }
+function parseExpression(expr, endsWith) {
+    let left = expr.match(/\(/g),
+        leftCount = left ? left.length : 0,
+        right = expr.match(/\)/g),
+        rightCount = right ? right.length : 0;
+    if (leftCount != rightCount) {
+        let err = new Error('Parantheses do not match!'),
+            rightmostRightPos = expr.lastIndexOf(')');
+        err.tokenStart = rightmostRightPos > -1 ? rightmostRightPos : expr.indexOf('(');
+        err.tokenEnd = err.tokenStart + 1;
+        throw err;
     }
+    return parseEx(expr, endsWith, 0)[0];
 
-    function addToken(token) {
-        let err;
-        if (previousType == 'variable' && token.type != 'keyword' ||
-                previousType == 'subExpression' && token.type != 'keyword' ||
-                previousType == 'keyword' && token.type == 'keyword' ||
-                previousType == undefined && token.type == 'keyword' && BeginningKeywords.indexOf(token.value) == -1) {
+    function parseEx(expr, endsWith, skippedLen) {
+        let tokens = [],
+            pos = 0,
+            len = expr.length,
+            loop = true,
+            previousType,
+            expressionKeyword;
 
-            err = new Error(`Unexpected ${token.type} ${previousType ? `after ${previousType}` : 'on the beginning of (sub)expression'} (position: ${token.pos}).`);
+        function addToken(token) {
+            let err;
+            if (previousType == 'variable' && token.type != 'keyword' ||
+                    previousType == 'subExpression' && token.type != 'keyword' ||
+                    previousType == 'keyword' && token.type == 'keyword' ||
+                    previousType == undefined && token.type == 'keyword' && BeginningKeywords.indexOf(token.value) == -1) {
+
+                err = new Error(`Unexpected ${token.type} ${previousType ? `after ${previousType}` : 'on the beginning of (sub)expression'} (position: ${token.pos}).`);
+            }
+            if (token.type == 'keyword') {
+                if (expressionKeyword && token.value != expressionKeyword) {
+                    if (!(expressionKeyword == 'if' && token.value == 'then')) {
+                        err = new Error('Each (sub)expression can contain only one type of keyword! Use parantheses to group expressions.');
+                    }
+                }
+                expressionKeyword = token.value;
+            }
+            if (err) {
+                err.tokenStart = token.pos;
+                err.tokenEnd = token.pos + token.length;
+                throw err;
+            }
+            tokens.push(token);
+            previousType = token.type;
         }
-        if (token.type == 'keyword') {
-            if (expressionKeyword && token.value != expressionKeyword) {
-                if (!(expressionKeyword == 'if' && token.value == 'then')) {
-                    err = new Error('Each (sub)expression can contain only one type of keyword! Use parantheses to group expressions.');
+
+        while (loop && pos < len) {
+            if (expr[pos] == ' ') {
+                pos += 1;
+                continue;
+            }
+            if (expr[pos] == '(') {
+                pos += 1;
+                let [subTokens, innerPos] = parseEx(expr.slice(pos), ')', pos);
+                if (subTokens.length == 1 && subTokens[0].type == 'variable') {
+                    addToken({
+                        type: 'variable',
+                        value: subTokens[0].value,
+                        pos: skippedLen + pos - 1,
+                        length: innerPos + 1
+                    });
+                } else {
+                    addToken({
+                        type: 'subExpression',
+                        value: subTokens,
+                        pos: skippedLen + pos - 1,
+                        length: innerPos + 1
+                    });
+                }
+                pos += innerPos;
+                continue;
+            }
+            let nextSpacePos = expr.indexOf(' ', pos),
+                endPos = expr.indexOf(endsWith, pos),
+                nextDelimPos;
+            if (nextSpacePos > 0 && nextSpacePos < endPos) {
+                nextDelimPos = nextSpacePos;
+            } else {
+                loop = false;
+                nextDelimPos = endPos;
+            }
+            let word = expr.slice(pos, nextDelimPos);
+            if (word.length > 0) {
+                let keywordValue = getKeywordValue(word);
+                if (keywordValue) {
+                    addToken({
+                        type: 'keyword',
+                        value: keywordValue,
+                        pos: skippedLen + pos,
+                        length: word.length
+                    });
+                } else {
+                    addToken({
+                        type: 'variable',
+                        value: word,
+                        pos: skippedLen + pos,
+                        length: word.length
+                    });
                 }
             }
-            expressionKeyword = token.value;
+            pos = nextDelimPos + 1;
         }
-        if (err) {
+
+        if (previousType == 'keyword') {
+            let err = new Error('Expression cannot end with a keyword!'),
+                token = tokens[tokens.length - 1];
             err.tokenStart = token.pos;
             err.tokenEnd = token.pos + token.length;
             throw err;
         }
-        tokens.push(token);
-        previousType = token.type;
-    }
 
-    while (loop && pos < len) {
-        if (expr[pos] == ' ') {
-            pos += 1;
-            continue;
-        }
-        if (expr[pos] == '(') {
-            pos += 1;
-            let [subTokens, innerPos] = parseExpression(expr.slice(pos), ')', pos);
-            if (subTokens.length == 1 && subTokens[0].type == 'variable') {
-                addToken({
-                    type: 'variable',
-                    value: subTokens[0].value,
-                    pos: skippedLen + pos - 1,
-                    length: innerPos + 1
-                });
-            } else {
-                addToken({
-                    type: 'subExpression',
-                    value: subTokens,
-                    pos: skippedLen + pos - 1,
-                    length: innerPos + 1
-                });
-            }
-            pos += innerPos;
-            continue;
-        }
-        let nextSpacePos = expr.indexOf(' ', pos),
-            endPos = expr.indexOf(endsWith, pos),
-            nextDelimPos;
-        if (nextSpacePos > 0 && nextSpacePos < endPos) {
-            nextDelimPos = nextSpacePos;
-        } else {
-            loop = false;
-            nextDelimPos = endPos;
-        }
-        let word = expr.slice(pos, nextDelimPos);
-        if (word.length > 0) {
-            let keywordValue = getKeywordValue(word);
-            if (keywordValue) {
-                addToken({
-                    type: 'keyword',
-                    value: keywordValue,
-                    pos: skippedLen + pos,
-                    length: word.length
-                });
-            } else {
-                addToken({
-                    type: 'variable',
-                    value: word,
-                    pos: skippedLen + pos,
-                    length: word.length
-                });
-            }
-        }
-        pos = nextDelimPos + 1;
+        return [tokens, pos];
     }
-
-    if (previousType == 'keyword') {
-        let err = new Error('Expression cannot end with a keyword!'),
-            token = tokens[tokens.length - 1];
-        err.tokenStart = token.pos;
-        err.tokenEnd = token.pos + token.length;
-        throw err;
-    }
-
-    return [tokens, pos];
 }
 
 function getKeywordValue(word) {

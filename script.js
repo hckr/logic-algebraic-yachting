@@ -33,12 +33,22 @@ fetch('test.lamd').then(response => {
                 }
             }
             console.log('Done.');
+            console.log('Interpreting facts...');
             interpretedFacts = interpretFacts(results['facts']);
+            console.log('Done.');
+            console.log('Finding possible variables\' combinations');
+            let possibleVarCombinations = findPossibleVarCombinationsWithDecomposition(interpretedFacts, 5);
+            console.log('Done.');
             function tempCb(fact) {
                 console.log(fact);
             }
-            initializeFactEditor(document.getElementsByClassName('fact-editor')[0], results['inputs'], findErrorsInExpression, tempCb);
+            initializeFactEditor(document.getElementsByClassName('fact-editor')[0], results['inputs'], findErrorsInExpression, analysisTask.bind(null, possibleVarCombinations));
             initializeFactEditor(document.getElementsByClassName('fact-editor')[1], results['outputs'], findErrorsInExpression, tempCb);
         });
     }
 });
+
+function analysisTask(possibleVarCombinations, inputFactExpression) {
+    let interpretedInputFact = interpretFact(parseExpression(inputFactExpression + '.', '.'));
+    console.log(findPossibleVarCombinations({ 'IF1': interpretedInputFact }, possibleVarCombinations));
+}

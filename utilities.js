@@ -23,7 +23,7 @@ function flatten(array, iter) {
 
 function findErrorsInExpression(expr) {
     try {
-        let tokens = parseExpression(expr + '.', '.')[0], // throws exception on error
+        let tokens = parseExpression(expr + '.', '.'), // throws exception on error
             undeclaredPos = findFirstUndeclaredVariablePos(tokens, ['?']);
         if (undeclaredPos) {
             console.error('Use "?" instead of variable names!');

@@ -2,12 +2,16 @@ function interpretFacts(facts) {
     let interpretedFacts = {};
     for (let factId in facts) {
         let expressionTokens = facts[factId];
-        interpretedFacts[factId] = {
-            'variables': extractUsedVariables(expressionTokens),
-            'evaluate': createFunctionFromFact(expressionTokens)
-        };
+        interpretedFacts[factId] = interpretFact(expressionTokens);
     }
     return interpretedFacts;
+}
+
+function interpretFact(expressionTokens) {
+    return {
+        'variables': extractUsedVariables(expressionTokens),
+        'evaluate': createFunctionFromFact(expressionTokens)
+    };
 }
 
 function extractUsedVariables(expressionTokens, set) {
