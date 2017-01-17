@@ -66,18 +66,8 @@ z32: bajdewind
 z33: wąskie przejście
 
 input-groups:
-u07, u06
-u18, u12, u13, u14, u25, u24
-u30, u11, u08
-u19, u20, u21, u22, u17
 
 disruptions-groups:
-z06, z07, z26
-z12, z09, z26
-z13, z05, z26
-z08, z11, z10
-z24, z25, z29
-z32, z31, z28, z30, z29
 
 outputs:
 y01: stała prędkość
@@ -110,58 +100,3 @@ F05: jeżeli (u23) to (x01).
 F06: Jeżeli (z28 i z15) to (x04).
 F07: Jeżeli (z28 i z16) to (x05).
 F08: Jeżeli (z28 i z17) to (x06).
-F09: Jeżeli (z28 i ((z18) lub (z19) lub (z20 lub z21 lub z22 lub z23))) to x07.
-F10: z32 albo z31 albo z28 albo z30 albo z29.
-F11: Jeżeli (z18) to (u08).
-F12: y03 albo (nie y03) albo y06.
-F13: Jeżeli (z19 lub (z20) lub (z21) lub (z22) lub (z23)) to (u08).
-F14: y04 albo y05 albo y06.
-F15: Jeżeli ((z19) lub (z20) lub (z21) lub (z22) lub (z23)) to ((u09) i (u10)).
-F16: Jeżeli (z20 lub z21 lub z22 lub z23) to (u11).
-F17: Jeżeli (z19) to ((z02) i (u12)).
-F18: Jeżeli (z20) to ((z02) i (u13)).
-F19: Jeżeli (z21) to ((z02) i (u14) i x10).
-F20: Jeżeli (z22) to ((z02) i (u25) i x10).
-F21: Jeżeli (z23) to (u29 i (u24) i x10).
-F22: Jeżeli (z04 i y02) to (x03).
-F23: Jeżeli (z04 i (nie z33)) to ((u06) lub (u07)).
-F24: jeżeli ((x09) i (nie x03)) to ((y01) i (y02)).
-F25: Jeżeli ((x05) lub (x06) lub (x07)) to (y03).
-F26: Jeżeli (z05) to (nie (x09)).
-F27: Jeżeli (u04 i x03) to (nie (x09)).
-F28: Jeżeli (x03 i u28) to (y02).
-F29: Jeżeli ((z06 i u15) i (x03) i (u16))  to (nie (x09)).
-F30: Jeżeli ((z07 i u15) i (x03) i (z08))  to (nie (x09)).
-F31: Jeżeli ((z09 i u15) i (x03) i (z24))  to (nie (x09)).
-F32: Jeżeli ((z09 i u15) i (z33) i (z25) i (z10)) to (x09).
-F33: Jeżeli ((z09 i u15) i (z33) i (z24) i (z11)) to (x09).
-F34: Jeżeli ((z33 i u27) i (z12) i (z13) i (nie (x10))) to (x09).
-F35: Jeżeli ((z33 i u04) i (z09) i (z13) i (nie (x10))) to (nie (x09)).
-F36: Jeżeli ((nie (x10)) i (nie z33)) to ((u06) lub (u07)).
-F37: Jeżeli ((nie (x10)) i (z33)) to (u06).
-F38: Jeżeli (nie (x10)) to (u26).
-F39: Jeżeli (x03 lub x07) to (x10).
-F40: Jeżeli ((z33) i (nie (x10))) to (nie (y03)).
-F41: Jeżeli (u05) to (y03).
-F42: Jeżeli (x11 lub x02) to x10.
-F43: Jeżeli ((z33) i (z03)) to (z14).
-F44: Jeżeli (u17) to (y03).
-F45: Jeżeli (z28 i u18) to (nie (y03)).
-F46: jeżeli (u19) to (y04).
-F47: jeżeli (u20) to (y05).
-F48: jeżeli (u21) to (y05).
-F49: jeżeli (u22) to (y04).
-F50: Jeżeli (((z28) lub (z30) lub (z31)) i ((u18) lub (u12) lub (u13) lub (u14) lub (u25)) ) to (y04).
-F51: Jeżeli (((z32) lub (z29)) i ((u18) lub (u12) lub (u13) lub (u14) lub (u25)) ) to (y05).
-F52: u07 albo u06.
-F53: u05 albo y02.
-F54: u18 albo u12 albo u13 albo u14 albo u25 albo u24.
-F55: u30 albo u11 albo u08.
-F56: u19 albo u20 albo u21 albo u22 albo y02 albo u17.
-F57: z12 albo z09 albo z26.
-F58: z13 albo z05 albo z26.
-F59: z06 albo z07 albo z26.
-F60: z08 albo z11 albo z10.
-F61: z24 albo z25 albo z29.
-F62: x02 albo x11 albo x01.
-F63: x04 albo x05 albo x06 albo x07.
