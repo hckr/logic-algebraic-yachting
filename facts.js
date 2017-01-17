@@ -1,5 +1,5 @@
 function generateFactsArrayFromGroups(groups) {
-    return groups.map((group, index) => `GF${index}: ${group.join(' xor ')}.`);
+    return groups.filter(g => g != undefined).map((group, index) => `GF${index}: ${group.join(' xor ')}.`);
 }
 
 function* allBinaryCombinations(variablesCount) {

@@ -1,6 +1,6 @@
 let results, interpretedFacts; // outside for debugging purpose
 
-fetch('test.lamd').then(response => {
+fetch('test2.lamd').then(response => {
     if (response.ok) {
         response.text().then(text => {
             console.log('Parsing input...');
@@ -18,11 +18,6 @@ fetch('test.lamd').then(response => {
                 duplicates = findDuplicates(allVarIds);
             if (duplicates.length > 0) {
                 throw new Error(`Found duplicated variable(s) across sections: ${duplicates.join(', ')}`);
-            }
-            let varIdsInAllGroups = flatten(allGroups, 2),
-                groupDuplicates = findDuplicates(varIdsInAllGroups);
-            if (groupDuplicates.length > 0) {
-                throw new Error(`Found variable(s) used multiple times in "*-groups" sections: ${groupDuplicates.join(', ')}`);
             }
             console.log('Done.');
             console.log('Looking for undeclared variables in facts...');
