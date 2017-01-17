@@ -23,8 +23,8 @@ function flatten(array, iter) {
 
 function findErrorsInExpression(expr) {
     try {
-        let tokens = parseExpression(expr + '.', '.')[0],
-            undeclaredPos = findFirstUndeclaredVariable(tokens, ['?']);
+        let tokens = parseExpression(expr + '.', '.')[0], // throws exception on error
+            undeclaredPos = findFirstUndeclaredVariablePos(tokens, ['?']);
         if (undeclaredPos) {
             console.error('Use "?" instead of variable names!');
         }
@@ -35,7 +35,7 @@ function findErrorsInExpression(expr) {
     }
 }
 
-function findFirstUndeclaredVariable(tokens, declaredVars) {
+function findFirstUndeclaredVariablePos(tokens, declaredVars) {
     for (let token of tokens) {
         switch (token.type) {
             case 'variable':
@@ -47,7 +47,7 @@ function findFirstUndeclaredVariable(tokens, declaredVars) {
                 }
                 break;
             case 'subExpression':
-                let result = findFirstUndeclaredVariable(token.value, declaredVars);
+                let result = findFirstUndeclaredVariablePos(token.value, declaredVars);
                 if (result != null) {
                     return result;
                 }
@@ -55,4 +55,22 @@ function findFirstUndeclaredVariable(tokens, declaredVars) {
         }
     }
     return null;
+}
+
+function findUndeclaredVariables(tokens, declaredVars) {
+    let undeclaredVars = [];
+    for (let token of tokens) {
+        switch (token.type) {
+            case 'variable':
+                if (declaredVars.indexOf(token.value) == -1) {
+                    undeclaredVars.push(token.value);
+                }
+                break;
+            case 'subExpression':
+                let result = findUndeclaredVariables(token.value, declaredVars);
+                undeclaredVars.push(...result);
+                break;
+        }
+    }
+    return undeclaredVars;
 }

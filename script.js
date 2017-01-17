@@ -25,6 +25,14 @@ fetch('test.lamd').then(response => {
                 throw new Error(`Found variable(s) used multiple times in "*-groups" sections: ${groupDuplicates.join(', ')}`);
             }
             console.log('Done.');
+            console.log('Looking for undeclared variables in facts...');
+            for (let factId in results['facts']) {
+                let undeclaredVars = findUndeclaredVariables(results['facts'][factId], allVarIds);
+                if (undeclaredVars.length > 0) {
+                    throw new Error(`Found usage of undeclared variables in fact ${factId}: ${undeclaredVars.join(', ')}`);
+                }
+            }
+            console.log('Done.');
             interpretedFacts = interpretFacts(results['facts']);
             function tempCb(fact) {
                 console.log(fact);
