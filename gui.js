@@ -1,7 +1,12 @@
 function initializeFactEditor(editor, variables, findErrorsInExpression, factReadyCallback) {
     let entry = editor.getElementsByClassName('fact-entry')[0],
         form = editor.getElementsByTagName('form')[0],
-        button = editor.getElementsByTagName('button')[0];
+        button = editor.getElementsByTagName('button')[0],
+        result = editor.getElementsByClassName('result')[0];
+
+    function setResult(r) {
+        result.innerHTML = r;
+    }
 
     let fitEntrySize = fitSize.bind(entry, () => entry.value.length + 3, 18);
     fitEntrySize();
@@ -40,7 +45,9 @@ function initializeFactEditor(editor, variables, findErrorsInExpression, factRea
                     let fitSelectSize = fitSize.bind(s, () => s.options[s.selectedIndex].text.length + 2, 14);
                     fitSelectSize();
                     s.addEventListener('change', fitSelectSize);
-                    s.addEventListener('change', ifFactReadyThenCall.bind(this, entry, allSelects, factReadyCallback));
+                    s.addEventListener('change', () => result.innerHTML = '');
+                    s.addEventListener('change', () => setTimeout(
+                        ifFactReadyThenCall.bind(this, entry, allSelects, factReadyCallback.bind(this, setResult))));
                 });
                 entry.classList.add('hidden');
                 form.classList.remove('hidden');

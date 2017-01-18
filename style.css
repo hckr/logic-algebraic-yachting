@@ -63,6 +63,12 @@ h2 {
     transition: width ease-in 0.1s;
 }
 
+.result {
+    margin-top: 10px;
+    font-size: 16px;
+    line-height: normal;
+}
+
 .hidden {
     display: none !important;
 }
@@ -76,11 +82,8 @@ table {
 }
 
 td {
-    width: 100px;
-}
-
-tr:first-child td {
-    font-weight: bold;
+    width: 120px;
+    vertical-align: bottom !important;
 }
 
 td:not(:last-child) {
