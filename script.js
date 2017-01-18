@@ -43,7 +43,31 @@ function analysisTask(possibleVarCombinations, inputFactExpression) {
     setTimeout(() => {
         let interpretedInputFact = interpretFact(parseExpression(inputFactExpression + '.', '.'));
         let res = findPossibleVarCombinations({ 'IF1': interpretedInputFact }, possibleVarCombinations);
-        console.log(res);
-        document.getElementById('result').innerHTML = res['variables'] + '<br>' + res['combinations'].map(c => c.join(', ')).join('<br>');
+        let res2 = extractOutputValuesFromCombinations(res);
+        let variablesForTitle = res2['variables'].map(v => `${v}: ${results['outputs'][v]}`)
+        let table = `<table><tr><td>${variablesForTitle.join('</td><td>')}</td></tr>
+                    <tr><td>${res2['combinations'].map(c => c.join('</td><td>')).join('</td></tr><tr><td>')}</td></tr></table>`;
+        document.getElementById('result').innerHTML = table;
     }, 4);
+}
+
+function extractOutputValuesFromCombinations(varCombinations) {
+    let inputIds = Object.keys(results['outputs']),
+        indices = [];
+
+    for (let varId of inputIds) {
+        indices.push(varCombinations['variables'].indexOf(varId));
+    }
+
+    let combinations = new Set();
+    for (let combination of varCombinations['combinations']) {
+        combinations.add(indices.map(i => combination[i] ? 1 : 0).join(','));
+    }
+
+    let c = Array.from(combinations).map(c => c.split(','));
+
+    return {
+        'variables': inputIds,
+        'combinations': c
+    };
 }

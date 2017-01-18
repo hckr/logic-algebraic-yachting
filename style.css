@@ -70,3 +70,23 @@ h2 {
 .error {
     border-color: #d9004a !important;
 }
+
+table {
+    text-align: center;
+}
+
+td {
+    width: 100px;
+}
+
+tr:first-child td {
+    font-weight: bold;
+}
+
+td:not(:last-child) {
+    border-right: 1px solid #666;
+}
+
+tr:not(:last-child) td {
+    border-bottom: 1px solid #666;
+}

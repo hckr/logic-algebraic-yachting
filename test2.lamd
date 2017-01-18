@@ -1,47 +1,39 @@
 inputs:
 u06: wyprzedzanie
-u12: małe ożaglowanie statku
 u13: ożaglowanie sztormowe
-u14: ożaglowanie małe sztormowe
 u17: hamowanie żaglami
 u18: normalne ożaglowanie statku
 u19: start ostrzenia
 u20: koniec ostrzenia
 u21: start odpadania
 u22: koniec odpadania
-u25: minimalne ożaglowanie sztormowe
 u28: żegluga przy prawej krawędzi szlaku
 
 disruptions:
 z28: baksztag
-z29: pole martwe
-z30: fordewind
-z31: półwiatr
-z32: bajdewind
+z29: wiatr od dziobu
 z33: wąskie przejście
 
 outputs:
-y01: stała prędkość
+y01: dryf
 y02: stały kurs
 y03: niska prędkość
 y04: podróż w kierunku zgodnym z wiatrem
 y05: podróż w kierunku przeciwnym do wiatru
-y06: dryf
 
 states:
 x03:  ryzyko kolizji
 x05:  duże przechyły
 x06:  bardzo duże przechyły
 x07:  niebezpieczne przechyły
-x09:  pierwszeństwo
 x10:  niebezpieczeństwo
 
 facts:
-F01: y03 albo (nie y03) albo y06.
-F02: y04 albo y05 albo y06.
-F03: u06 albo y06.
+F01: Jeżeli ((nie x10) i (nie z33)) to (u06).
+F02: y04 albo y05 albo y01.
+F03: u06 albo y01.
 F04: Jeżeli ( nie z33 ) to (u06).
-F05: jeżeli ((x09) i (nie x03) ) to ((y01) i (y02)).
+F05: jeżeli ( nie x03 ) to (y02).
 F06: Jeżeli ((x05) lub (x06) lub (x07)) to (y03).
 F07: u19 albo u20 albo u21 albo u22 albo y02 albo u17.
 F08: jeżeli (u19) to (y04).
@@ -52,8 +44,9 @@ F12: Jeżeli (u17) to (y03).
 F13: Jeżeli ((z28) i (u18)) to (nie y03).
 F14: Jeżeli ((z33) i (nie (x10))) to (nie y03).
 F15: Jeżeli (nie y02) to (y03).
-F16: u18 albo u12 albo u13 albo u14 albo u25.
+F16: u18 albo u13.
 F17: Jeżeli ((x03) i (u28)) to (y02).
-F18: Jeżeli (((z28) lub (z30) lub (z31)) i ((u18) lub (u12) lub (u13) lub (u14) lub (u25)) ) to (y04).
-F19: Jeżeli (((z32) lub (z29)) i ((u18) lub (u12) lub (u13) lub (u14) lub (u25)) ) to (y05).
-F20: Jeżeli ((nie x10) i (nie z33)) to (u06).
+F18: Jeżeli ((nie z29) i ((u18) lub (u13))) to (y04).
+F19: Jeżeli ( (z29) i ((u18) lub (u13)) ) to (y05).
+F20: Jeżeli ((x03) lub (x07)) to (x10).
+F21: z28 albo z29.
