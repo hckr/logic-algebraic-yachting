@@ -1,7 +1,3 @@
-function generateFactsArrayFromGroups(groups) {
-    return groups.filter(g => g != undefined).map((group, index) => `GF${index}: ${group.join(' xor ')}.`);
-}
-
 function* allBinaryCombinations(variablesCount) {
     for (let i = 0, lim = (1 << variablesCount); i < lim; ++i) {
         let combination = [];

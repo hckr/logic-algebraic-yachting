@@ -5,10 +5,6 @@ fetch('test2.lamd').then(response => {
         response.text().then(text => {
             console.log('Parsing input...');
             results = parseData(text);
-            let allGroups = [ results['input-groups'],
-                              results['output-groups'],
-                              results['disruptions-groups'] ];
-            Object.assign(results['facts'], parseFacts(generateFactsArrayFromGroups(flatten(allGroups))));
             console.log('Done.')
             console.log('Looking for duplicates...');
             let allVarIds = flatten([ Object.keys(results['inputs']),
@@ -44,6 +40,10 @@ fetch('test2.lamd').then(response => {
 });
 
 function analysisTask(possibleVarCombinations, inputFactExpression) {
-    let interpretedInputFact = interpretFact(parseExpression(inputFactExpression + '.', '.'));
-    console.log(findPossibleVarCombinations({ 'IF1': interpretedInputFact }, possibleVarCombinations));
+    setTimeout(() => {
+        let interpretedInputFact = interpretFact(parseExpression(inputFactExpression + '.', '.'));
+        let res = findPossibleVarCombinations({ 'IF1': interpretedInputFact }, possibleVarCombinations);
+        console.log(res);
+        document.getElementById('result').innerHTML = res['variables'] + '<br>' + res['combinations'].map(c => c.join(', ')).join('<br>');
+    }, 4);
 }

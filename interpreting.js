@@ -79,6 +79,9 @@ function createFunctionFromFact(expressionTokens) {
                     break;
             }
         }
+        if (!currentLevelKeyword) {
+            return currentLevelValues[0];
+        }
         return KeywordFunctions[currentLevelKeyword](currentLevelValues);
     };
 }

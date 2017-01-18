@@ -36,9 +36,6 @@ let parsers = {
     'disruptions': parseVariables,
     'outputs': parseVariables,
     'states': parseVariables,
-    'input-groups': parseGroups,
-    'disruptions-groups': parseGroups,
-    'output-groups': parseGroups,
     'facts': parseFacts
 };
 
@@ -68,10 +65,6 @@ function parseVariables(lines) {
         variables[id] = name;
     });
     return variables;
-}
-
-function parseGroups(lines) {
-    return lines.map(line => line.split(',').map(s => s.trim()));
 }
 
 function parseFacts(lines) {
