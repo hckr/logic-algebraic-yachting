@@ -34,6 +34,7 @@ function initializeFactEditor(editor, variables, findErrorsInExpression, factRea
             button.setAttribute('data-toggle', prevText);
 
             if (formVisible) {
+                result.innerHTML = '';
                 form.classList.add('hidden');
                 entry.classList.remove('hidden');
                 entry.focus();
@@ -61,18 +62,22 @@ function initializeFactEditor(editor, variables, findErrorsInExpression, factRea
     });
 
     button.addEventListener('click', function() {
-        let error = findErrorsInExpression(entry.value);
-        if (entry.value.match(/\?/) && error == null) {
-            entry.classList.remove('error');
-            editor.style.opacity = 0;
-            button.disabled = true;
-        } else {
-            entry.classList.add('error');
-            entry.focus();
-            if (error) {
-                entry.selectionStart = error.tokenStart;
-                entry.selectionEnd = error.tokenEnd;
+        if (formVisible) {
+            let error = findErrorsInExpression(entry.value);
+            if (entry.value.match(/\?/) && error == null) {
+                entry.classList.remove('error');
+                editor.style.opacity = 0; // triggers event
+                button.disabled = true;
+            } else {
+                entry.classList.add('error');
+                entry.focus();
+                if (error) {
+                    entry.selectionStart = error.tokenStart;
+                    entry.selectionEnd = error.tokenEnd;
+                }
             }
+        } else {
+            editor.style.opacity = 0; // triggers event
         }
     });
 

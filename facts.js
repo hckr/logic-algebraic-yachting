@@ -8,7 +8,7 @@ function* allBinaryCombinations(variablesCount) {
     }
 }
 
-function findPossibleVarCombinationsWithDecomposition(interpretedFacts, groupSize) {
+function findPossibleVarCombinationsByParts(interpretedFacts, groupSize) {
     let factIds = Object.keys(interpretedFacts),
         factsCount = factIds.length,
         previousData;
