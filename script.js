@@ -33,7 +33,7 @@ fetch('test2.lamd').then(response => {
             function tempCb(fact) {
                 console.log(fact);
             }
-            initializeFactEditor(document.getElementsByClassName('fact-editor')[0], parsingResults['inputs'], findErrorsInExpression, analysisTask);
+            initializeFactEditor(document.getElementsByClassName('fact-editor')[0], Object.assign({}, parsingResults['inputs'], parsingResults['disruptions']), findErrorsInExpression, analysisTask);
             initializeFactEditor(document.getElementsByClassName('fact-editor')[1], parsingResults['outputs'], findErrorsInExpression, tempCb);
 
             function analysisTask(setResult, inputFactExpression) {
