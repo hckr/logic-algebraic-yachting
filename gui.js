@@ -4,10 +4,6 @@ function initializeFactEditor(editor, variables, findErrorsInExpression, factRea
         button = editor.getElementsByTagName('button')[0],
         result = editor.getElementsByClassName('result')[0];
 
-    function setResult(r) {
-        result.innerHTML = r;
-    }
-
     let fitEntrySize = fitSize.bind(entry, () => entry.value.length + 3, 18);
     fitEntrySize();
     entry.addEventListener('keydown', fitEntrySize);
@@ -82,6 +78,42 @@ function initializeFactEditor(editor, variables, findErrorsInExpression, factRea
     });
 
     entry.addEventListener('keypress', e => e.keyCode == 13 && button.click());
+
+    function setResult(variables, possibleCombinations) {
+        let colTitles = Object.keys(variables).map(varId => `${varId}: ${variables[varId]}`),
+            tableHtml = buildResultsTable(colTitles, possibleCombinations),
+            sentencesHtml = buildResultSentencesInPolish(Object.keys(variables), possibleCombinations);
+        result.innerHTML = tableHtml + sentencesHtml;
+
+        if (possibleCombinations.length) {
+            let table = result.getElementsByTagName('table')[0],
+                sentences = result.getElementsByClassName('sentences')[0],
+                button = document.createElement('button');
+            button.className = 'show-table';
+            button.innerHTML = 'pokaż tabelę';
+            button.addEventListener('click', () => {
+                sentences.style.marginTop = '0';
+                button.parentNode.removeChild(button);
+            });
+
+            setSizes();
+            window.addEventListener('resize', setSizes);
+
+            result.appendChild(button);
+
+            function setSizes() {
+                let tableWidth = table.clientWidth,
+                    tableHeight = table.clientHeight,
+                    headerHeight = table.getElementsByTagName('td')[0].clientHeight;
+                sentences.classList.remove('transition');
+                sentences.style.marginTop = `-${tableHeight - headerHeight - 3}px`;
+                sentences.style.width = tableWidth + 'px';
+                button.style.top = `${headerHeight + 10}px`;
+                button.style.left = `${tableWidth / 2 - 65}px`;
+                setTimeout(() => sentences.classList.add('transition'));
+            }
+        }
+    }
 }
 
 function fitSize(getTextLen, fontWidth) {
@@ -93,4 +125,36 @@ function ifFactReadyThenCall(entry, allSelects, callback) {
         let index = 0;
         callback(entry.value.replace(/\?/g, () => allSelects[index++].value));
     }
+}
+
+function buildResultsTable(colTitles, varCombinations) {
+    let titleRow = `<tr><td>${colTitles.join('</td><td>')}</td></tr>`,
+        rows;
+
+    if (varCombinations.length) {
+        rows = varCombinations.map(c => `<tr><td>${c.join('</td><td>')}</td></tr>`).join('');
+    } else {
+        rows = `<tr><td colspan=${colTitles.length}>–</td></tr>`;
+    }
+
+    let table = `<table>${titleRow}${rows}</table>`;
+    return table;
+}
+
+function buildResultSentencesInPolish(varIds, varCombinations) {
+    let sentences = '<div class="sentences">';
+    if (varCombinations.length) {
+        sentences += varCombinations.map(c => {
+            let sentence = '(';
+            sentence += c.map((v, i) => {
+                let variable = varIds[i];
+                if (v == 0) {
+                    variable = `(nie ${variable})`;
+                }
+                return variable;
+            }).join(' <b>i</b> ');
+            return sentence + ')';
+        }).join('<br><b>lub</b><br>');
+    }
+    return sentences + '</div>';
 }

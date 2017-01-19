@@ -67,6 +67,12 @@ h2 {
     margin-top: 10px;
     font-size: 16px;
     line-height: normal;
+    position: relative;
+}
+
+.show-table {
+    position: absolute;
+    z-index: 11;
 }
 
 .fact-editor .hidden {
@@ -78,11 +84,12 @@ h2 {
 }
 
 table {
+    margin-top: 30px;
     text-align: center;
 }
 
 td {
-    width: 120px;
+    width: 95px;
     vertical-align: bottom !important;
 }
 
@@ -115,15 +122,9 @@ ul {
     max-width: 900px;
 }
 
-.tutorial-wrapper {
-    transition: all ease-in 0.3s;
-    overflow: hidden;
-    height: auto;
-    opacity: 1;
-}
-
 .description .hidden {
     height: 0 !important;
+    overflow: hidden;
     opacity: 0;
 }
 
@@ -133,4 +134,15 @@ ul {
 
 .description button {
     margin-top: 20px;
+}
+
+.sentences {
+    padding: 50px 0 50px;
+    background: white;
+    position: relative;
+    z-index: 10;
+}
+
+.sentences.transition {
+    transition: all ease-in 0.15s;
 }

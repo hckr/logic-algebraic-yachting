@@ -43,7 +43,7 @@ fetch('yachting.lamd').then(response => {
                     possibleOutputCombinations = filterCombinations(outputVarIds, possibleCombinations),
                     colTitles = outputVarIds.map(varId => `${varId}: ${parsingResults['outputs'][varId]}`);
 
-                setResult(buildResultsTable(colTitles, possibleOutputCombinations));
+                setResult(parsingResults['outputs'], possibleOutputCombinations);
             }
 
             function decisionMakingTask(setResult, outputFactExpression) {
@@ -54,10 +54,9 @@ fetch('yachting.lamd').then(response => {
                     interpretedNegatedOutputFact = interpretFact(parseExpression('not (' + outputFactExpression + ').', '.')),
                     wrongCombinations = findPossibleVarCombinations({ 'OF1neg': interpretedNegatedOutputFact }, possibleVarCombinations),
                     wrongInputCombinations = filterCombinations(inputVarIds, wrongCombinations),
-                    possibleInputCombinations = combinationsDifference(candidateInputCombinations, wrongInputCombinations),
-                    colTitles = inputVarIds.map(varId => `${varId}: ${parsingResults['inputs'][varId]}`);
+                    possibleInputCombinations = combinationsDifference(candidateInputCombinations, wrongInputCombinations);
 
-                setResult(buildResultsTable(colTitles, possibleInputCombinations));
+                setResult(parsingResults['inputs'], possibleInputCombinations);
             }
         });
     }
@@ -73,20 +72,6 @@ function filterCombinations(varIds, varCombinations) {
         }())).map(c => c.split(','));
 
     return combinationsWithoutDuplicates;
-}
-
-function buildResultsTable(colTitles, varCombinations) {
-    let titleRow = `<tr><td>${colTitles.join('</td><td>')}</td></tr>`,
-        rows;
-
-    if (varCombinations.length) {
-        rows = varCombinations.map(c => `<tr><td>${c.join('</td><td>')}</td></tr>`).join('');
-    } else {
-        rows = `<tr><td colspan=${colTitles.length}>–</td></tr>`;
-    }
-
-    let table = `<table>${titleRow}${rows}</table>`;
-    return table;
 }
 
 function combinationsDifference(source, toBeDeleted) {
