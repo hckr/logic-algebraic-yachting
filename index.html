@@ -10,6 +10,31 @@
 <body>
     <h1>Logiczno-algebraiczne jachtowanie</h1>
 
+    <div class="description">
+        <p>Aplikacja służy pomocą przy podejmowaniu decyzji dotyczących manewrów żęglarskich.</p>
+
+        <div class="tutorial-wrapper hidden">
+            <div class="tutorial">
+                <p>Zadanie analizy służy do wypisania wszystkich możliwych kombinacji rezultatów podjętych decyzji przy założeniu zadanych warunków zewnętrzych (zakłóceń). Decyzje oraz zakłócenia wprowadzane są w formie faktu wejściowego.</p>
+
+                <p>Zadanie podejmowania decyzji służy do wypisania wszystkich kombinacji możliwych do podjęcia decyzji, których wynikiem będą zadane skutki, wprowadzone w postaci faktu wyjściowego.</p>
+
+                <p>W celu wprowadzenia faktu, należy najpierw zdefiniować jego szablon, składający się z funkcji logicznych oraz znaków zapytania w miejscach zmiennych. Przykładowe szablony faktów:</p>
+                <ul>
+                    <li>? i ?</li>
+                    <li>? lub ?</li>
+                    <li>? albo ?</li>
+                    <li>nie ?</li>
+                    <li>jeżeli ? to ?</li>
+                    <li>? i (nie ?)</li>
+                </ul>
+
+                <p>Po wprowadzeniu szablonu zdania logicznego należy wcisnąć przycik "Gotowe", co spowoduje zamianę znaków zapytania na listy rozwijane umożliwiające wybór konkretnych składowych zdań. Wynik zostanie pokazany po wybraniu wszystkich opcji.</p>
+            </div>
+        </div>
+        <button data-toggle="Schowaj instrukcję">Pokaż instrukcję</button>
+    </div>
+
     <h2>Zadanie analizy</h2>
     <div class="fact-editor">
         <label for="input-fact-entry">Fakt wejściowy:</label>

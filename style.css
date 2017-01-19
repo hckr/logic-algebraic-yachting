@@ -69,7 +69,7 @@ h2 {
     line-height: normal;
 }
 
-.hidden {
+.fact-editor .hidden {
     display: none !important;
 }
 
@@ -100,4 +100,37 @@ tr:not(:last-child) td {
 
 a {
     color: #2a70ff;
+}
+
+p {
+    text-indent: 2em;
+    margin: 10px 0;
+}
+
+ul {
+    margin: 5px 0 20px;
+}
+
+.description {
+    max-width: 900px;
+}
+
+.tutorial-wrapper {
+    transition: all ease-in 0.3s;
+    overflow: hidden;
+    height: auto;
+    opacity: 1;
+}
+
+.description .hidden {
+    height: 0 !important;
+    opacity: 0;
+}
+
+.tutorial li {
+    font-style: italic;
+}
+
+.description button {
+    margin-top: 20px;
 }

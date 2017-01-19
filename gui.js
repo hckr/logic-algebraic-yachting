@@ -12,8 +12,8 @@ function initializeFactEditor(editor, variables, findErrorsInExpression, factRea
     fitEntrySize();
     entry.addEventListener('keydown', fitEntrySize);
 
-    entry.focus();
-    entry.selectionStart = entry.value.length;
+    // entry.focus();
+    // entry.selectionStart = entry.value.length;
 
     let formVisible = false;
 

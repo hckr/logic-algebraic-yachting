@@ -96,3 +96,19 @@ function combinationsDifference(source, toBeDeleted) {
 
     return resultStrs.map(c => c.split(','));
 }
+
+let tutorial = document.getElementsByClassName('tutorial')[0],
+    tutorialWrapper = document.getElementsByClassName('tutorial-wrapper')[0],
+    tutorialButton = document.querySelector('.description button');
+
+tutorialButton.addEventListener('click', () => {
+    let oldText = tutorialButton.innerHTML;
+    tutorialButton.innerHTML = tutorialButton.getAttribute('data-toggle');
+    tutorialButton.setAttribute('data-toggle', oldText);
+    tutorialWrapper.style.height = tutorial.clientHeight + 'px';
+    setTimeout(() => tutorialWrapper.classList.toggle('hidden'), 50);
+});
+
+tutorialWrapper.addEventListener('transitionend', () => {
+    tutorialWrapper.style.height = 'auto';
+});
