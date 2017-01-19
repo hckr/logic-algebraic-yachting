@@ -1,10 +1,8 @@
-let parsingResults, interpretedFacts; // outside for debugging purpose
-
-fetch('test2.lamd').then(response => {
+fetch('yachting.lamd').then(response => {
     if (response.ok) {
         response.text().then(text => {
             console.log('Parsing input...');
-            parsingResults = parseData(text);
+            let parsingResults = parseData(text);
             console.log('Done.')
 
             console.log('Looking for duplicates...');
@@ -28,7 +26,7 @@ fetch('test2.lamd').then(response => {
             console.log('Done.');
 
             console.log('Interpreting facts...');
-            interpretedFacts = interpretFacts(parsingResults['facts']);
+            let interpretedFacts = interpretFacts(parsingResults['facts']);
             console.log('Done.');
 
             console.log('Finding possible variables\' combinations');

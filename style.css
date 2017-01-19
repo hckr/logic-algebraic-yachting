@@ -93,3 +93,11 @@ td:not(:last-child) {
 tr:not(:last-child) td {
     border-bottom: 1px solid #666;
 }
+
+.footer {
+    margin-top: 80px;
+}
+
+a {
+    color: #2a70ff;
+}

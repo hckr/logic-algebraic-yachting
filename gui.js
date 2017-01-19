@@ -62,7 +62,7 @@ function initializeFactEditor(editor, variables, findErrorsInExpression, factRea
     });
 
     button.addEventListener('click', function() {
-        if (formVisible) {
+        if (!formVisible) {
             let error = findErrorsInExpression(entry.value);
             if (entry.value.match(/\?/) && error == null) {
                 entry.classList.remove('error');
