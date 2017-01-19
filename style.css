@@ -122,6 +122,13 @@ ul {
     max-width: 900px;
 }
 
+.tutorial-wrapper {
+    transition: all ease-in 0.3s;
+    overflow: hidden;
+    height: auto;
+    opacity: 1;
+}
+
 .description .hidden {
     height: 0 !important;
     overflow: hidden;
