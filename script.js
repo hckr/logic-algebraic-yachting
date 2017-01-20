@@ -34,7 +34,7 @@ fetch('yachting.lamd').then(response => {
             console.log('Done.');
 
             initializeFactEditor(document.getElementsByClassName('fact-editor')[0], Object.assign({}, parsingResults['inputs'], parsingResults['disruptions']), findErrorsInExpression, analysisTask);
-            initializeFactEditor(document.getElementsByClassName('fact-editor')[1], Object.assign({}, parsingResults['outputs'], parsingResults['disruptions']), findErrorsInExpression, decisionMakingTask);
+            initializeFactEditor(document.getElementsByClassName('fact-editor')[1], parsingResults['outputs'], findErrorsInExpression, decisionMakingTask);
 
             function analysisTask(setResult, inputFactExpression) {
                 let outputVarIds = Object.keys(parsingResults['outputs']),
