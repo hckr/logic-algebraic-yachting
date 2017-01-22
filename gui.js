@@ -88,10 +88,12 @@ function initializeFactEditor(editor, variables, findErrorsInExpression, factRea
         if (possibleCombinations.length) {
             let table = result.getElementsByTagName('table')[0],
                 sentences = result.getElementsByClassName('sentences')[0],
-                button = document.createElement('button');
+                button = document.createElement('button'),
+                tableHidden = true;
             button.className = 'show-table';
             button.innerHTML = 'pokaż tabelę';
             button.addEventListener('click', () => {
+                tableHidden = false;
                 sentences.style.marginTop = '0';
                 button.parentNode.removeChild(button);
             });
@@ -106,7 +108,9 @@ function initializeFactEditor(editor, variables, findErrorsInExpression, factRea
                     tableHeight = table.clientHeight,
                     headerHeight = table.getElementsByTagName('td')[0].clientHeight;
                 sentences.classList.remove('transition');
-                sentences.style.marginTop = `-${tableHeight - headerHeight - 3}px`;
+                if (tableHidden) {
+                    sentences.style.marginTop = `-${tableHeight - headerHeight - 3}px`;
+                }
                 sentences.style.width = tableWidth + 'px';
                 button.style.top = `${headerHeight + 10}px`;
                 button.style.left = `${tableWidth / 2 - 65}px`;
