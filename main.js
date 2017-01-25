@@ -40,8 +40,7 @@ fetch('yachting.lamd').then(response => {
                 let outputVarIds = Object.keys(parsingResults['outputs']),
                     interpretedInputFact = interpretFact(parseExpression(inputFactExpression + '.', '.')),
                     possibleCombinations = findPossibleVarCombinations({ 'IF1': interpretedInputFact }, possibleVarCombinations),
-                    possibleOutputCombinations = filterCombinations(outputVarIds, possibleCombinations),
-                    colTitles = outputVarIds.map(varId => `${varId}: ${parsingResults['outputs'][varId]}`);
+                    possibleOutputCombinations = filterCombinations(outputVarIds, possibleCombinations);
 
                 setResult(parsingResults['outputs'], possibleOutputCombinations);
             }
