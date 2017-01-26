@@ -111,7 +111,7 @@ function initializeFactEditor(editor, variables, findErrorsInExpression, factRea
                 if (tableHidden) {
                     sentences.style.marginTop = `-${tableHeight - headerHeight - 3}px`;
                 }
-                sentences.style.width = tableWidth + 'px';
+                sentences.style.minWidth = tableWidth + 'px';
                 button.style.top = `${headerHeight + 10}px`;
                 button.style.left = `${tableWidth / 2 - 65}px`;
                 setTimeout(() => sentences.classList.add('transition'));

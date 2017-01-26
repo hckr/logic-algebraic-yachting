@@ -30,7 +30,7 @@ x03:  ryzyko kolizji
 
 
 facts:
-F01: Jeżeli ((nie x01) i (nie z05) i (nie u06)) to (u06).
+F01: Jeżeli ((nie x01) i (nie z05)) to (u06).
 F02: y04 albo y05.
 F03: u06 albo y01.
 F04: Jeżeli ( u06 ) to (nie y03).
