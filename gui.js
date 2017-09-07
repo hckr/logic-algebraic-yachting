@@ -1,4 +1,4 @@
-function initializeFactEditor(editor, variables, findErrorsInExpression, factReadyCallback) {
+function initializeFactEditor(editor, variables, findErrorsInExpression, factReadyCallback, getTranslation) {
     let entry = editor.getElementsByClassName('fact-entry')[0],
         form = editor.getElementsByTagName('form')[0],
         button = editor.getElementsByTagName('button')[0],
@@ -82,7 +82,7 @@ function initializeFactEditor(editor, variables, findErrorsInExpression, factRea
     function setResult(variables, possibleCombinations) {
         let colTitles = Object.keys(variables).map(varId => `${varId}: ${variables[varId]}`),
             tableHtml = buildResultsTable(colTitles, possibleCombinations),
-            sentencesHtml = buildResultSentencesInPolish(Object.keys(variables), possibleCombinations);
+            sentencesHtml = buildResultSentences(Object.keys(variables), possibleCombinations, getTranslation);
         result.innerHTML = tableHtml + sentencesHtml;
 
         if (possibleCombinations.length) {
@@ -91,7 +91,7 @@ function initializeFactEditor(editor, variables, findErrorsInExpression, factRea
                 button = document.createElement('button'),
                 tableHidden = true;
             button.className = 'show-table';
-            button.innerHTML = 'pokaż tabelę';
+            button.innerHTML = getTranslation('show table');
             button.addEventListener('click', () => {
                 tableHidden = false;
                 sentences.style.marginTop = '0';
@@ -145,7 +145,7 @@ function buildResultsTable(colTitles, varCombinations) {
     return table;
 }
 
-function buildResultSentencesInPolish(varIds, varCombinations) {
+function buildResultSentences(varIds, varCombinations, getTranslation) {
     let sentences = '<div class="sentences">';
     if (varCombinations.length) {
         sentences += varCombinations.map(c => {
@@ -153,12 +153,12 @@ function buildResultSentencesInPolish(varIds, varCombinations) {
             sentence += c.map((v, i) => {
                 let variable = varIds[i];
                 if (v == 0) {
-                    variable = `(nie ${variable})`;
+                    variable = `(${getTranslation('not')} ${variable})`;
                 }
                 return variable;
-            }).join(' <b>i</b> ');
+            }).join(` <b>${getTranslation('and')}</b> `);
             return sentence + ')';
-        }).join('<br><b>lub</b><br>');
+        }).join(`<br><b>${getTranslation('or')}</b><br>`);
     }
     return sentences + '</div>';
 }

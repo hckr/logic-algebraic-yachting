@@ -39,7 +39,7 @@
     <h2>Zadanie analizy</h2>
     <div class="fact-editor">
         <label for="input-fact-entry">Fakt wejściowy:</label>
-        <input id="input-fact-entry" class="fact-entry" value="? i ?"></input>
+        <input id="input-fact-entry" class="fact-entry" value="? i ?">
         <form class="hidden">
         </form>
         <button data-toggle="wróć">Gotowe</button>
@@ -49,7 +49,7 @@
     <h2>Zadanie podejmowania decyzji</h2>
     <div class="fact-editor">
         <label for="output-fact-entry">Fakt wyjściowy:</label>
-        <input id="output-fact-entry" class="fact-entry" value="? i ?"></input>
+        <input id="output-fact-entry" class="fact-entry" value="? i ?">
         <form class="hidden">
         </form>
         <button data-toggle="wróć">Gotowe</button>
@@ -68,5 +68,13 @@
     <script src="utilities.js"></script>
     <script src="facts.js"></script>
     <script src="main.js"></script>
+    <script>
+        main('yachting_pl.lamd', {
+            'show table': 'pokaż tabelę',
+            'not': 'nie',
+            'and': 'i',
+            'or': 'lub'
+        });
+    </script>
 </body>
 </html>
