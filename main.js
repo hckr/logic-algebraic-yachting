@@ -1,4 +1,7 @@
-function main(dbFileName, dictionary) {
+function main(dbFileName, dictionary, keywordsTranslations) {
+
+    dictionary = dictionary || {};
+    setKeywordsTranslations(keywordsTranslations);
 
     function getTranslation(phrase) {
         return dictionary[phrase] || phrase;

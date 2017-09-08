@@ -24,9 +24,9 @@ y04: podróż w kierunku zgodnym z wiatrem
 y05: podróż w kierunku przeciwnym do wiatru
 
 states:
-x01:  niebezpieczeństwo
-x02:  duże przechyły
-x03:  ryzyko kolizji
+x01: niebezpieczeństwo
+x02: duże przechyły
+x03: ryzyko kolizji
 
 
 facts:
@@ -34,13 +34,13 @@ F01: Jeżeli ((nie x01) i (nie z05)) to (u06).
 F02: y04 albo y05.
 F03: u06 albo y01.
 F04: Jeżeli ( u06 ) to (nie y03).
-F05: jeżeli ( nie x03 ) to (y02).
+F05: Jeżeli ( nie x03 ) to (y02).
 F06: Jeżeli (x02) to (y03).
 F07: u04 albo u05 albo u07 albo u08 albo y02.
-F08: jeżeli (u04) to (y04).
-F09: jeżeli (u05) to (y05).
-F10: jeżeli (u07) to (y05).
-F11: jeżeli (u08) to (y04).
+F08: Jeżeli (u04) to (y04).
+F09: Jeżeli (u05) to (y05).
+F10: Jeżeli (u07) to (y05).
+F11: Jeżeli (u08) to (y04).
 F12: Jeżeli (u03) to (y03).
 F13: Jeżeli ((z03) i (u02)) to (nie y03).
 F14: Jeżeli ((z05) i (x01)) to (y03).

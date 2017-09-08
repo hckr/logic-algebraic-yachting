@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Logiczno-algebraiczne jachtowanie</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans&amp;subset=latin-ext">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -12,6 +12,7 @@
 
     <div class="description">
         <p>Aplikacja służy pomocą przy podejmowaniu decyzji dotyczących manewrów żeglarskich.</p>
+        <p><a href="en.html">See the English version</a>.</p>
 
         <div class="tutorial-wrapper hidden">
             <div class="tutorial">
@@ -70,11 +71,11 @@
     <script src="main.js"></script>
     <script>
         main('yachting_pl.lamd', {
-            'show table': 'pokaż tabelę',
-            'not': 'nie',
-            'and': 'i',
-            'or': 'lub'
-        });
+                'show table': 'pokaż tabelę',
+                'not': 'nie',
+                'and': 'i',
+                'or': 'lub'
+            }, ['jeżeli', 'to', 'i', 'lub', 'albo', 'nie' ]);
     </script>
 </body>
 </html>

@@ -1,0 +1,55 @@
+inputs:
+u01: storm sails
+u02: ordinary sails
+u03: braking with sails
+u04: beginning of luffing
+u05: end of luffing
+u06: overtaking
+u07: beginning of veering
+u08: end of veering
+u09: sailing on the right edge of the trail
+
+disruptions:
+z01: strong wind
+z02: ship nearby
+z03: broad reach
+z04: wind from the bow
+z05: narrow passage
+
+outputs:
+y01: drift
+y02: fixed course
+y03: low speed
+y04: travel in the wind direction
+y05: travel in the opposite direction to the wind
+
+states:
+x01: danger
+x02: big tilt
+x03: risk of collision
+
+
+facts:
+F01: If ((not x01) and (not z05)) then (u06).
+F02: y04 xor y05.
+F03: u06 xor y01.
+F04: If ( u06 ) then (not y03).
+F05: If ( not x03 ) then (y02).
+F06: If (x02) then (y03).
+F07: u04 xor u05 xor u07 xor u08 xor y02.
+F08: If (u04) then (y04).
+F09: If (u05) then (y05).
+F10: If (u07) then (y05).
+F11: If (u08) then (y04).
+F12: If (u03) then (y03).
+F13: If ((z03) and (u02)) then (not y03).
+F14: If ((z05) and (x01)) then (y03).
+F15: If (z05 and z01) then x01.
+F16: u02 xor u01 xor y01.
+F17: If ((x03) and (u09)) then (y02).
+F18: If ((not z04) and ((u02) or (u01 ))) then (y04).
+F19: If ( (z04) and ((u02) or (u01 )) ) then (y05).
+F20: If ((x03) or (x02)) then (x01).
+F21: z03 xor z04.
+F22: If (u04) then (x02).
+F23: If (z05 and z02) then x03.

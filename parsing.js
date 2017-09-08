@@ -1,3 +1,13 @@
+const Keywords = [ 'if', 'then', 'and', 'or', 'xor', 'not' ];
+let   keywordsTranslations = []; // same order as above
+const BeginningKeywords = [ 'if', 'not' ];
+
+function setKeywordsTranslations(translations) {
+    if (translations) {
+        keywordsTranslations = translations;
+    }
+}
+
 function parseData(text) {
     let lines = text.split('\n').map(s => s.trim()),
         results = {},
@@ -89,10 +99,6 @@ function parseFacts(lines) {
     return facts;
 }
 
-const Keywords = [ 'if', 'then', 'and', 'or', 'xor', 'not' ],
-      KeywordsPL = ['jeżeli', 'to', 'i', 'lub', 'albo', 'nie' ],
-      BeginningKeywords = [ 'if', 'not' ];
-
 function parseExpression(expr, endsWith) {
     let left = expr.match(/\(/g),
         leftCount = left ? left.length : 0,
@@ -121,8 +127,8 @@ function parseExpression(expr, endsWith) {
                     previousType == 'subExpression' && token.type != 'keyword' ||
                     previousType == 'keyword' && token.type == 'keyword' ||
                     previousType == undefined && token.type == 'keyword' && BeginningKeywords.indexOf(token.value) == -1) {
-
-                err = new Error(`Unexpected ${token.type} ${previousType ? `after ${previousType}` : 'on the beginning of (sub)expression'} (position: ${token.pos}).`);
+                console.log(token);
+                err = new Error(`Unexpected ${token.type} ${previousType ? `after ${previousType}` : 'on the beginning of (sub)expression'} (position: ${skippedLen + token.pos}).`);
             }
             if (token.type == 'keyword') {
                 if (expressionKeyword && token.value != expressionKeyword) {
@@ -216,7 +222,7 @@ function getKeywordValue(word) {
     if (index > -1) {
         return word;
     }
-    index = KeywordsPL.indexOf(word);
+    index = keywordsTranslations.indexOf(word);
     if (index > -1) {
         return Keywords[index];
     }
