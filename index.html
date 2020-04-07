@@ -16,11 +16,15 @@
 
         <div class="tutorial-wrapper hidden">
             <div class="tutorial">
-                <p>Zadanie analizy służy do wypisania wszystkich możliwych kombinacji rezultatów podjętych decyzji przy założeniu zadanych warunków zewnętrzych (zakłóceń). Decyzje oraz zakłócenia wprowadzane są w formie faktu wejściowego.</p>
+                <p>Zadanie analizy służy do wypisania wszystkich możliwych kombinacji rezultatów podjętych decyzji przy
+                    założeniu zadanych warunków zewnętrzych (zakłóceń). Decyzje oraz zakłócenia wprowadzane są w formie
+                    faktu wejściowego.</p>
 
-                <p>Zadanie podejmowania decyzji służy do wypisania wszystkich kombinacji możliwych do podjęcia decyzji, których wynikiem będą zadane skutki, wprowadzone w postaci faktu wyjściowego.</p>
+                <p>Zadanie podejmowania decyzji służy do wypisania wszystkich kombinacji możliwych do podjęcia decyzji,
+                    których wynikiem będą zadane skutki, wprowadzone w postaci faktu wyjściowego.</p>
 
-                <p>W celu wprowadzenia faktu, należy najpierw zdefiniować jego szablon, składający się z funkcji logicznych oraz znaków zapytania w miejscach zmiennych. Przykładowe szablony faktów:</p>
+                <p>W celu wprowadzenia faktu, należy najpierw zdefiniować jego szablon, składający się z funkcji
+                    logicznych oraz znaków zapytania w miejscach zmiennych. Przykładowe szablony faktów:</p>
                 <ul>
                     <li>? i ?</li>
                     <li>? lub ?</li>
@@ -31,7 +35,9 @@
                     <li>? i ((nie ?) lub ?)</li>
                 </ul>
 
-                <p>Po wprowadzeniu szablonu zdania logicznego należy wcisnąć przycik "Gotowe", co spowoduje zamianę znaków zapytania na listy rozwijane umożliwiające wybór konkretnych składowych zdań. Wynik zostanie pokazany po wybraniu wszystkich opcji.</p>
+                <p>Po wprowadzeniu szablonu zdania logicznego należy wcisnąć przycik "Gotowe", co spowoduje zamianę
+                    znaków zapytania na listy rozwijane umożliwiające wybór konkretnych składowych zdań. Wynik zostanie
+                    pokazany po wybraniu wszystkich opcji.</p>
             </div>
         </div>
         <button data-toggle="Schowaj instrukcję">Pokaż instrukcję</button>
@@ -59,7 +65,7 @@
 
     <div class="footer">
         Wykonali: <a href="https://github.com/hckr">Jakub Młokosiewicz</a>,
-                  <a href="https://github.com/minik01">Dominik Wojnar</a>.<br>
+        <a href="https://github.com/minik01">Dominik Wojnar</a>.<br>
         Zobacz <a href="https://github.com/hckr/logic-algebraic-yachting">kod na GitHubie</a>.
     </div>
 
@@ -71,11 +77,13 @@
     <script src="main.js"></script>
     <script>
         main('yachting_pl.lamd', {
-                'show table': 'pokaż tabelę',
-                'not': 'nie',
-                'and': 'i',
-                'or': 'lub'
-            }, ['jeżeli', 'to', 'i', 'lub', 'albo', 'nie' ]);
+            'show table': 'pokaż tabelę',
+            'not': 'nie',
+            'and': 'i',
+            'or': 'lub'
+        }, ['jeżeli', 'to', 'i', 'lub', 'albo', 'nie']);
     </script>
+    <script src="https://hckr.pl/topbar.js"></script>
+    <script src="https://hckr.pl/analytics.js"></script>
 </body>
 </html>
